@@ -79,6 +79,7 @@ plugins=(
     conda-zsh-completion
     docker
     docker-compose
+    fzf
 	  git-auto-fetch
     helm
     history
@@ -136,6 +137,17 @@ if [ -f ~/.zsh/private-config.zsh ]; then
 else
     print "~/.zsh/private-config.zsh not found."
 fi
+
+function fuzzpass() {
+    local arg
+    arg=$1
+    if [ "$arg" = "" ]; then
+        arg="password"
+    fi
+    local item
+    item=$(1pass | fzf);
+    [[ -n "$item" ]] && 1pass "$item" "$arg"
+}
 
 function clj() {
     if [[ -z $@ ]]; then
