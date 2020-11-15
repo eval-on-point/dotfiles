@@ -1,16 +1,12 @@
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
-emulate zsh -c "$(direnv export zsh)"
-
 POWERLEVEL9K_MODE='nerdfont-complete'
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-emulate zsh -c "$(direnv hook zsh)"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/m/.oh-my-zsh"
@@ -62,8 +58,6 @@ COMPLETION_WAITING_DOTS="true"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# ssh-add ~/.ssh/ata-github
-
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -77,14 +71,14 @@ plugins=(
 	  colorize
 	  command-not-found
     conda-zsh-completion
+    direnv
     docker
     docker-compose
-    fzf
 	  git-auto-fetch
     helm
     history
     history-substring-search
-    per-directory-history
+    # per-directory-history
     kops
     kubectl
     lein
@@ -92,43 +86,52 @@ plugins=(
     op
     systemd
     terraform
-    vi-mode
+    eop-vi-mode
 	  web-search
     yarn
-	  zsh-autosuggestions
+	  # zsh-autosuggestions
 	  zsh-interactive-cd
-        )
+    fzf-tab
+)
 
 autoload -Uz compinit && compinit
+
 setopt COMPLETE_ALIASES
 source $ZSH/oh-my-zsh.sh
+
+source /opt/azure-cli/az.completion
+
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
 
 source <(kubectl completion zsh)
 
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 
+source ~/.zsh/vterm.zsh
+
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR=e
+    export EDITOR=vim
 else
-  export EDITOR=e
+    export EDITOR=exwm-edit
 fi
 
 zstyle ':completion:*' rehash true
 zstyle ':completion:*:*:make:*' tag-order 'targets'
 
-alias mkdir="mkdir -p"
-alias fb="ranger"
+alias mv="mv -iv"
+alias cp="cp -riv"
+alias mkdir="mkdir -vp"
 alias webcam="mpv --demuxer-lavf-format video4linux2 --demuxer-lavf-o-set input_format=mjpeg av://v4l2:$1"
-alias ssh='TERM=xterm ssh'
+# alias ssh='TERM=xterm ssh'
 alias doghouse='sudo netctl-auto switch-to doghouse'
 alias ata='sudo netctl-auto switch-to ATA'
 alias z='zathura'
 alias spotify='spotify --force-device-scale-factor=2'
 alias whatsmyip='curl https://ipinfo.io/ip'
-alias newqt='qutebrowser --target window'
 alias less='cless'
-alias rm='rm -v'
+alias rm='rm -rv'
 alias yacom='ccat ~/.oh-my-zsh/plugins/archlinux/README.md|grep yay'
 alias q='qutebrowser'
 
@@ -157,21 +160,18 @@ function clj() {
     fi
 }
 
-vterm_printf() {
-    if [ -n "$TMUX" ]; then
-        # Tell tmux to pass the escape sequences through
-        # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
-        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-    elif [ "${TERM%%-*}" = "screen" ]; then
-        # GNU screen (screen, screen-256color, screen-256color-bce)
-        printf "\eP\e]%s\007\e\\" "$1"
-    else
-        printf "\e]%s\e\\" "$1"
-    fi
+function pain() {
+    yay -Slq | fzf -m --preview 'yay -Si {1}' | yain -
+}
+
+function parm() {
+    pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns
 }
 
 source ~/bin/kube-ps1/kube-ps1.sh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+enable-fzf-tab
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
