@@ -42,10 +42,11 @@ set-backlight.sh
 monitor-backlight.sh &
 xset s 0
 dunst &
+udiskie --tray &
 unclutter &
 numlockx &
 # pasystray &
-picom -b
+xcompmgr &
 xdg-mime default org-protocol.desktop x-scheme-handler/org-protocol
 xhost +
 emacs -f exwm-enable

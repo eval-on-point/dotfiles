@@ -5,3 +5,18 @@
 	path = emacs/.emacs.d
 	url = git@github.com:syl20bnr/spacemacs.git
 	branch = develop
+[submodule "private-dotfiles"]
+	path = private-dotfiles
+	url = git@github.com:eval-on-point/private-dotfiles.git
+[submodule "shell/.oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+	path = shell/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "shell/.oh-my-zsh/custom/plugins/op"]
+	path = shell/.oh-my-zsh/custom/plugins/op
+	url = https://github.com/sirhc/op.plugin.zsh
+[submodule "shell/.oh-my-zsh/custom/plugins/fzf-tab"]
+	path = shell/.oh-my-zsh/custom/plugins/fzf-tab
+	url = https://github.com/Aloxaf/fzf-tab
+[submodule "shell/.oh-my-zsh/custom/plugins/conda-zsh-completion"]
+	path = shell/.oh-my-zsh/custom/plugins/conda-zsh-completion
+	url = https://github.com/esc/conda-zsh-completion

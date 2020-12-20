@@ -1,5 +1,7 @@
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
+emulate zsh -c "$(direnv export zsh)"
+
 POWERLEVEL9K_MODE='nerdfont-complete'
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -7,6 +9,8 @@ POWERLEVEL9K_MODE='nerdfont-complete'
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+emulate zsh -c "$(direnv hook zsh)"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/m/.oh-my-zsh"
@@ -43,7 +47,7 @@ HYPHEN_INSENSITIVE="true"
 ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -101,9 +105,6 @@ source $ZSH/oh-my-zsh.sh
 
 source /opt/azure-cli/az.completion
 
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
-
 source <(kubectl completion zsh)
 
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
@@ -120,6 +121,7 @@ fi
 zstyle ':completion:*' rehash true
 zstyle ':completion:*:*:make:*' tag-order 'targets'
 
+alias ls="lsd"
 alias mv="mv -iv"
 alias cp="cp -riv"
 alias mkdir="mkdir -vp"
@@ -134,6 +136,18 @@ alias less='cless'
 alias rm='rm -rv'
 alias yacom='ccat ~/.oh-my-zsh/plugins/archlinux/README.md|grep yay'
 alias q='qutebrowser'
+alias bb='rlwrap bb'
+
+opon() {
+    eval $(gpg --quiet --decrypt ~/.cred.gpg|op signin)
+}
+opoff() {
+    op signout
+    unset OP_SESSION_my
+    unset OP_SESSION_atallc
+}
+
+alias 1p=''
 
 if [ -f ~/.zsh/private-config.zsh ]; then
     source ~/.zsh/private-config.zsh
@@ -160,18 +174,38 @@ function clj() {
     fi
 }
 
+git () {
+    if command git "$@"; then
+        [[ $1 == "clone" ]] && cd "${${2##*/}%.git}"
+    fi
+}
+
 function pain() {
     yay -Slq | fzf -m --preview 'yay -Si {1}' | yain -
 }
 
 function parm() {
-    pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns
+    pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' |\
+        xargs -ro sudo pacman -Rns
 }
 
 source ~/bin/kube-ps1/kube-ps1.sh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 enable-fzf-tab
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+# expand-or-complete-or-list-files
+function first-tab() {
+    if [[ $#BUFFER == 0 ]]; then
+        fzf-history-widget
+    else
+        fzf-completion
+    fi
+}
+zle -N first-tab
+bindkey '^I' first-tab
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
