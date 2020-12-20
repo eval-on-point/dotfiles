@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+bb '(json/parse-stream *in* true)' |\
+    bb "(as-> *input* $ ${1-})"    |\
+    edn -w "$(($COLUMNS - 3))"
