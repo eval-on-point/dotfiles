@@ -1,0 +1,35 @@
+{:ignore-classpath-directories  true
+ :auto-add-ns-to-new-files?     false
+ :show-docs-arity-on-same-line? true
+ :macro-defs
+ {devcards.core/defcard-rg                [{:element :declaration
+                                            :tags    [:unused]}
+                                           :elements]
+  ore-frame.fx/reg-fx                     [{:element   :declaration
+                                            :signature [:next :next :next]}
+                                           :element]
+  re-frame.core/reg-fx                    [{:element   :declaration
+                                            :signature [:next :next :next]}
+                                           :element]
+  re-frame.core/reg-sub                   [{:element   :declaration
+                                            :signature [:rightmost :next :next
+                                                        :next      :right]}
+                                           :elements]
+  airdex-authority-ui/reg-simple-sub      [:declaration]
+  airdex-authority-ui/reg-simple-subs     [{:element [:declaration]
+                                            :repeat  true}]
+  reagent.core/with-let                   [:bindings :bound-elements]
+  day8.re-frame.tracing/fn-traced         [:function-params-and-bodies]
+  spade.core/defclass                     [{:element   :declaration
+                                            ;; :tags      [:unused]
+                                            :signature [:vector]}
+                                           :params :bound-elements]
+  peanuts.core/defc                       [:declaration :element :element]
+  clojure.test.check.clojure-test/defspec [{:element :declaration
+                                            :tags    [:unused]}]
+  clojure.test.check.properties/for-all   [:bindings :bound-elements]}
+ :clj-kondo
+ {:lint-as {clojure.test.check.clojure-test/defspec clojure.test/deftest
+            reagent.core/with-let                   clojure.core/let
+            day8.re-frame.tracing/fn-traced         clojure.core/fn
+            peanuts.core/defc                       clojure.core/def}}}
