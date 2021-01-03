@@ -24,6 +24,8 @@ settings:
         gc: open javascript:void(location.href='org-protocol://roam-ref?template=r&ref='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title))
   colors.webpage.bg:
     global: null
+  colors.webpage.darkmode.enabled:
+    global: true
   colors.webpage.prefers_color_scheme_dark:
     global: true
   content.desktop_capture:
@@ -68,6 +70,8 @@ settings:
     - '{}'
   fonts.completion.category:
     global: bold default_size default_family
+  fonts.debug_console:
+    global: default_size default_family
   fonts.default_family:
     global: SauceCodePro
   fonts.default_size:
@@ -75,9 +79,9 @@ settings:
   fonts.hints:
     global: bold default_size default_family
   fonts.web.size.default:
-    global: 10
+    global: 12
   fonts.web.size.default_fixed:
-    global: 8
+    global: 12
   fonts.web.size.minimum:
     global: 0
   fonts.web.size.minimum_logical:

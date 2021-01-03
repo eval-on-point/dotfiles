@@ -1,5 +1,7 @@
 typeset -U PATH path
-path=("$HOME/bin" "$HOME/.node_modules/bin" "$HOME/.local/bin" "$(ruby -e 'puts Gem.user_dir')/bin" "$path[@]")
+path=("$HOME/bin" "$HOME/.node_modules/bin" "$HOME/.local/bin"
+      # "$(ruby -e 'puts Gem.user_dir')/bin"
+      "$path[@]")
 export PATH
 
 export npm_config_prefix=~/.node_modules
@@ -8,6 +10,8 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+export ZSH_COLORIZE_STYLE=solarized-dark
 
 export RUST_SRC_PATH=/usr/bin/racer
 

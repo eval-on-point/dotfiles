@@ -19,7 +19,7 @@ export ZSH="/home/m/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -122,6 +122,10 @@ zstyle ':completion:*' rehash true
 zstyle ':completion:*:*:make:*' tag-order 'targets'
 
 alias ls="lsd"
+alias l="ls -l --total-size"
+alias la="ls -lA --total-size"
+alias lt="ls --tree"
+alias ld="ls -d --total-size *"
 alias mv="mv -iv"
 alias cp="cp -riv"
 alias mkdir="mkdir -vp"
@@ -137,6 +141,7 @@ alias rm='rm -rv'
 alias yacom='ccat ~/.oh-my-zsh/plugins/archlinux/README.md|grep yay'
 alias q='qutebrowser'
 alias bb='rlwrap bb'
+alias ccat='pygmentize -f 16m -O style=solarized-dark -g'
 
 opon() {
     eval $(gpg --quiet --decrypt ~/.cred.gpg|op signin)
@@ -189,7 +194,7 @@ function parm() {
         xargs -ro sudo pacman -Rns
 }
 
-source ~/bin/kube-ps1/kube-ps1.sh
+source ~/.oh-my-zsh/custom/kube-ps1/kube-ps1.sh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 enable-fzf-tab
@@ -206,6 +211,8 @@ function first-tab() {
 }
 zle -N first-tab
 bindkey '^I' first-tab
+
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -232,3 +239,5 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme

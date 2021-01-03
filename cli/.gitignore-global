@@ -1,0 +1,12 @@
+.rebel_readline_history
+.#*
+target/*
+.projectile
+.dir-locals.el
+**/.ignore
+**/.lsp/
+**/.clj-kondo/
+**/.lsp/
+/.nrepl-port
+/*.temp
+/.dev.env

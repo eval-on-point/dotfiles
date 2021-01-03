@@ -20,3 +20,6 @@
 [submodule "shell/.oh-my-zsh/custom/plugins/conda-zsh-completion"]
 	path = shell/.oh-my-zsh/custom/plugins/conda-zsh-completion
 	url = https://github.com/esc/conda-zsh-completion
+[submodule "shell/.oh-my-zsh/custom/kube-ps1"]
+	path = shell/.oh-my-zsh/custom/kube-ps1
+	url = https://github.com/jonmosco/kube-ps1

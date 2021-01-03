@@ -15,4 +15,16 @@ source ~/.zsh/vterm.zsh
 #     # vterm_cmd message "$file"
 # done
 
-vterm_cmd find-files "$@"
+if [ ! -t 0 ]
+then
+    if [ -z $1 ]
+    then
+        OUT="$(mktemp)"
+    else
+        OUT="$(mktemp --suffix=.$1)"
+    fi
+    cat - > "$OUT"
+    vterm_cmd find-files "$OUT"
+else
+    vterm_cmd find-files "$@"
+fi

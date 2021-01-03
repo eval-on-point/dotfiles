@@ -34,26 +34,22 @@ fi
 
 #/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 #xss-lock -l -- ~/bin/transfer-sleep-lock-generic-delay.sh &
+xrandr --output HDMI-1 --off \
+       --output DP-0 --scale 2x2 --pos 0x0 \
+       --output DP-2 --primary --scale 1.5x1.5 --pos 3840x0
 
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-setlaptopcaps.sh
-set-backlight.sh
 monitor-backlight.sh &
+MultipleDropboxInstances.sh &
 xset s 0
 dunst &
 udiskie --tray &
 unclutter &
 numlockx &
+birdtray &
 # pasystray &
 xcompmgr &
 xdg-mime default org-protocol.desktop x-scheme-handler/org-protocol
 xhost +
 emacs -f exwm-enable
-
-#exec startxfce4
-
-#exec herbstluftwm
-
-#export DESKTOP_SESSION=plasma
-#exec startplasma-x11
